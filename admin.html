@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>King Tobacco - Admin Panel</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0b0b0d;
+            --panel-bg: #131317;
+            --card-bg: #1c1c24;
+            --accent-gold: #d4af37;
+            --accent-gold-hover: #bfa030;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #2d2d38;
+            --danger-color: #ef4444;
+            --danger-hover: #dc2626;
+            --success-color: #10b981;
+            --info-color: #3b82f6;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-sans: 'Outfit', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 24px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        header {
+            max-width: 1200px;
+            margin: 0 auto 32px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo-area h1 {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-area p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .btn-gold {
+            background-color: var(--accent-gold);
+            color: #000;
+        }
+
+        .btn-gold:hover {
+            background-color: var(--accent-gold-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--border-color);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: var(--danger-hover);
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 6px;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 32px;
+        }
+
+        @media (max-width: 900px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .panel {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .panel h2 {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            color: var(--accent-gold);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .input-text, .input-select {
+            width: 100%;
+            padding: 10px 14px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 8px;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-text:focus, .input-select:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .input-color-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .input-color {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 48px;
+            height: 38px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: none;
+        }
+
+        .input-color::-webkit-color-swatch {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        .file-upload-btn {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .file-upload-btn:hover {
+            background-color: var(--card-bg);
+        }
+
+        .file-upload-btn input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Brands Dashboard */
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .brands-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .brand-card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .brand-card-header {
+            padding: 18px 24px;
+            background-color: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .brand-info-wrap {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand-logo-preview {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            object-fit: contain;
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            padding: 2px;
+        }
+
+        .brand-logo-preview.placeholder {
+            background-color: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+        }
+
+        .brand-title-text h3 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .brand-card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .brand-card-body {
+            padding: 24px;
+        }
+
+        /* Flavor Management tags style */
+        .add-flavor-inline {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .flavor-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .flavor-badge {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .flavor-badge:hover {
+            border-color: var(--text-muted);
+        }
+
+        .flavor-badge-text {
+            cursor: pointer;
+        }
+
+        .flavor-badge-text:hover {
+            text-decoration: underline;
+            color: var(--accent-gold);
+        }
+
+        .btn-badge-action {
+            background: none;
+            border: none;
+            padding: 0;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+
+        .btn-badge-action:hover {
+            color: var(--danger-color);
+        }
+
+        /* Backup panel styles */
+        .backup-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .backup-item:last-child {
+            border-bottom: none;
+        }
+
+        .backup-info h4 {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .backup-info p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Modal implementation */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .modal-header {
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .modal-header h3 {
+            font-family: var(--font-display);
+            color: var(--accent-gold);
+            font-size: 1.3rem;
+        }
+
+        .modal-footer {
+            margin-top: 24px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* Confirmation safety */
+        .safety-input-group {
+            margin-top: 16px;
+            padding: 12px;
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 8px;
+        }
+        
+        .safety-input-group p {
+            font-size: 0.85rem;
+            color: #fca5a5;
+            margin-bottom: 8px;
+        }
+
+        /* Search styling */
+        .search-container {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px;
+            color: var(--text-muted);
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--accent-gold);
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            z-index: 2000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <h1>👑 King Tobacco - Admin Panel</h1>
+            <p>Manage brands, customized color schemes, logos, and flavors.</p>
+        </div>
+        <div class="header-actions">
+            <button onclick="triggerExport()" class="btn-gold">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Export Client Menu
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Control Section / Form -->
+        <div class="sidebar">
+            <div class="panel">
+                <h2 id="brandFormTitle">Create Brand</h2>
+                <form id="brandForm" onsubmit="saveBrand(event)">
+                    <input type="hidden" id="editBrandId">
+                    
+                    <div class="form-group">
+                        <label for="brandName">Brand Name</label>
+                        <input type="text" id="brandName" class="input-text" placeholder="e.g., Geek Bar" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="brandColor">Accent Color</label>
+                        <div class="input-color-wrapper">
+                            <input type="color" id="brandColor" class="input-color" value="#d4af37">
+                            <span id="colorHexText" style="font-family: monospace; font-size: 0.9rem;">#d4af37</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="brandLogoUrl">Logo Image URL</label>
+                        <input type="text" id="brandLogoUrl" class="input-text" placeholder="e.g., https://site.com/logo.png">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Or Upload Logo (Converts to offline base64)</label>
+                        <label class="file-upload-btn">
+                            <span id="fileNameLabel">Choose Image File...</span>
+                            <input type="file" id="brandLogoFile" accept="image/*" onchange="handleLogoUpload(event)">
+                        </label>
+                        <input type="hidden" id="brandLogoBase64">
+                    </div>
+
+                    <div style="display: flex; gap: 8px;">
+                        <button type="submit" class="btn-gold" style="flex: 1;" id="brandSubmitBtn">Save Brand</button>
+                        <button type="button" class="btn-secondary" id="cancelEditBtn" style="display: none;" onclick="resetBrandForm()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- CSV Import Panel -->
+            <div class="panel">
+                <h2>Import CSV Inventory</h2>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.3;">
+                    Bulk load data from a 2-column CSV (Brand, Flavor). Accent colors default to gold (#d4af37). A backup is automatically created before importing.
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <label class="file-upload-btn" style="border-style: solid; border-color: var(--accent-gold); color: var(--accent-gold); display: block; position: relative; margin: 0;">
+                        <span id="csvFileLabel">Select CSV File...</span>
+                        <input type="file" id="csvFileInput" accept=".csv" onchange="handleCSVImport(event)" style="position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;">
+                    </label>
+                    <button class="btn-secondary btn-sm" onclick="downloadCSVSample()" style="width: 100%; justify-content: center; font-size: 0.8rem; padding: 8px;">
+                        Download CSV Sample (Based on Current Data)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Backups Panel -->
+            <div class="panel">
+                <h2>Dated Backups</h2>
+                <div id="backupsList" style="max-height: 250px; overflow-y: auto;">
+                    <!-- Backup items will render here -->
+                </div>
+                <div style="margin-top: 16px; display: flex; gap: 8px;">
+                    <button class="btn-secondary btn-sm" onclick="createBackupManual()" style="width: 100%; justify-content: center;">Create Manual Backup</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div class="content-area">
+            <div class="search-container">
+                <input type="text" id="adminSearchInput" class="input-text" placeholder="Search brands or flavors..." onkeyup="renderDashboard()">
+            </div>
+            
+            <div id="brandsDashboard" class="brands-grid">
+                <!-- Brand Cards Dynamically Injected -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Confirm Delete Modal (Strict Double Checking) -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚠️ Strict Delete Confirmation</h3>
+            </div>
+            <p id="deleteMessage">Are you sure you want to delete this?</p>
+            
+            <div class="safety-input-group">
+                <p>To confirm deletion, please type <strong id="deleteTargetConfirmName" style="color: var(--danger-color);"></strong> below:</p>
+                <input type="text" id="deleteConfirmInput" class="input-text" placeholder="Type here..." autocomplete="off">
+            </div>
+            
+            <div class="modal-footer">
+                <button onclick="closeDeleteModal()" class="btn-secondary">Cancel</button>
+                <button id="confirmDeleteBtn" onclick="executeDelete()" class="btn-danger" disabled>Confirm Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Flavor Modal -->
+    <div id="editFlavorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✏️ Edit Flavor Name</h3>
+            </div>
+            <div class="form-group">
+                <label for="editFlavorInput">Flavor Name</label>
+                <input type="text" id="editFlavorInput" class="input-text" placeholder="Flavor name" required>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeEditFlavorModal()" class="btn-secondary">Cancel</button>
+                <button onclick="executeFlavorEdit()" class="btn-gold">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">Action completed successfully</div>
+
+    <script>
+        // Default seed data (from test.html)
+        const DEFAULT_INVENTORY = {
+            "Fogger": {
+                color: "#d4af37",
+                logo: "",
+                flavors: [
+                    "Watermelon Ice", "Strawberry Ice", "Blue Razz Ice", "Sour Apple Ice", "Juicy Peach Ice", 
+                    "White Gummy", "Orange Slush", "Grape Slush", "Soda Slush", "Strawberry Slush", 
+                    "Cherry Slush", "Peach Slush", "Frozen Summer Pear", "Frozen Strawberry Grapefruit", 
+                    "Frozen Orange & Green", "Frozen Watermelon", "Frozen Pineapple", "Frozen Blueberry", 
+                    "Frozen Lemon", "Frozen Banana", "Frozen Blackberry", "Blue Sour Raspberry", "Meta Moon",
+                    "Cherry Bomb", "Lemon Head", "Red Mix Refresher", "Blackberry Passion Refresher", 
+                    "Mango Pineapple Refresher", "Strawberry Mango", "Lime Berry Orange", "1-Up G-Burst", 
+                    "Pink Lemonade", "Strawberry Cotton Candy", "Blueberry Cotton Candy", "Watermelon Cotton Candy", 
+                    "Pineapple Coconut", "California Cherry", "Gummy Bear", "Dragonfruit Lemonade", 
+                    "Strawberry Watermelon", "Watermelon Bubblegum", "Blueberry Watermelon", "Kiwi Dragon Berry", 
+                    "Strawberry Kiwi", "Mexico Mango", "Strawberry Banana", "Strawberry Cupcake", 
+                    "Chocolate Cupcake", "Coconut Cupcake", "Red Velvet Cupcake", "Strawnana Ice Cream", 
+                    "Vanilla Ice Cream", "Tobacco", "Cool Mint", "Miami Mint", "Gummint", "Blue Razzler", 
+                    "Berry Bliss", "Pink + Blue", "Dragon Melon", "Strawberry B-Burst", "Blue Dragon",
+                    "Sour Raspberry Punch", "Triple Berry Punch", "Hawaiian Punch", "Purple Passion Punch", "Sour Punch"
+                ]
+            }
+        };
+
+        // App State
+        let inventory = {};
+        let backups = [];
+        
+        // Deletion Pending Data
+        let deleteActionType = null; // 'brand' or 'flavor'
+        let deleteBrandKey = null;
+        let deleteFlavorIndex = null;
+        let deleteTargetName = '';
+
+        // Edit Flavor Pending Data
+        let editFlavorBrandKey = null;
+        let editFlavorIndex = null;
+
+        // Initialize App
+        window.addEventListener('load', () => {
+            // Load inventory
+            const savedInventory = localStorage.getItem('king_tobacco_inventory');
+            if (savedInventory) {
+                try {
+                    inventory = JSON.parse(savedInventory);
+                    // Migrate old array-only format if existing from test.html
+                    for (let key in inventory) {
+                        if (Array.isArray(inventory[key])) {
+                            inventory[key] = {
+                                color: "#d4af37",
+                                logo: "",
+                                flavors: inventory[key]
+                            };
+                        }
+                    }
+                } catch(e) {
+                    inventory = JSON.parse(JSON.stringify(DEFAULT_INVENTORY));
+                }
+            } else {
+                inventory = JSON.parse(JSON.stringify(DEFAULT_INVENTORY));
+                saveInventoryToStorage();
+            }
+
+            // Load backups
+            const savedBackups = localStorage.getItem('king_tobacco_backups');
+            if (savedBackups) {
+                try {
+                    backups = JSON.parse(savedBackups);
+                } catch(e) {
+                    backups = [];
+                }
+            }
+
+            // Synchronize Hex Input text
+            document.getElementById('brandColor').addEventListener('input', (e) => {
+                document.getElementById('colorHexText').textContent = e.target.value;
+            });
+
+            // Set up delete modal verification listener
+            document.getElementById('deleteConfirmInput').addEventListener('input', (e) => {
+                const isMatch = e.target.value.trim() === deleteTargetName;
+                document.getElementById('confirmDeleteBtn').disabled = !isMatch;
+            });
+
+            renderDashboard();
+            renderBackups();
+        });
+
+        // Save Inventory & Update UI
+        function saveInventoryToStorage() {
+            localStorage.setItem('king_tobacco_inventory', JSON.stringify(inventory));
+        }
+
+        // Show toast notifications
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // --- CSV IMPORT SYSTEM ---
+        function parseCSV(text) {
+            let c = '', r = [];
+            let q = false;
+            let row = [''];
+            for (let i = 0; i < text.length; i++) {
+                c = text[i];
+                let next = text[i+1];
+                if (c === '"') {
+                    if (q && next === '"') { row[row.length-1] += '"'; i++; } // Escaped quotes
+                    else { q = !q; }
+                } else if (c === ',') {
+                    if (q) { row[row.length-1] += c; }
+                    else { row.push(''); }
+                } else if (c === '\n' || c === '\r') {
+                    if (c === '\r' && next === '\n') { i++; }
+                    if (q) { row[row.length-1] += '\n'; }
+                    else {
+                        r.push(row);
+                        row = [''];
+                    }
+                } else {
+                    row[row.length-1] += c;
+                }
+            }
+            if (row.length > 1 || row[0] !== '') {
+                r.push(row);
+            }
+            return r;
+        }
+
+        function handleCSVImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const text = e.target.result;
+                const rows = parseCSV(text);
+                if (rows.length === 0) {
+                    alert('The CSV file appears to be empty.');
+                    return;
+                }
+
+                // Auto safety backup before bulk change
+                createBackup('Pre-CSV Import Backup');
+
+                let importedCount = 0;
+                let newBrandsCount = 0;
+
+                rows.forEach((cols, index) => {
+                    if (cols.length < 2) return;
+                    
+                    let brand = cols[0].trim();
+                    let flavor = cols[1].trim();
+
+                    // Skip header row if it contains keywords
+                    if (index === 0 && (brand.toLowerCase() === 'brand' || flavor.toLowerCase() === 'flavor')) {
+                        return;
+                    }
+
+                    if (!brand || !flavor) return;
+
+                    // Initialize brand structure if missing
+                    if (!inventory[brand]) {
+                        inventory[brand] = {
+                            color: '#d4af37',
+                            logo: '',
+                            flavors: []
+                        };
+                        newBrandsCount++;
+                    }
+
+                    // Add unique flavors
+                    if (!inventory[brand].flavors.includes(flavor)) {
+                        inventory[brand].flavors.push(flavor);
+                        importedCount++;
+                    }
+                });
+
+                saveInventoryToStorage();
+                renderDashboard();
+                showToast(`Imported ${importedCount} flavors and created ${newBrandsCount} new brands!`);
+                event.target.value = ''; // Reset file input
+            };
+            reader.readAsText(file);
+        }
+
+        function downloadCSVSample() {
+            let csvContent = "Brand,Flavor\n";
+            let hasData = false;
+
+            // Generate CSV rows based on current inventory
+            for (const brand in inventory) {
+                const flavors = inventory[brand].flavors;
+                if (flavors && flavors.length > 0) {
+                    flavors.forEach(flavor => {
+                        // Escape quotes if brand or flavor contains any comma or quotes
+                        let escapedBrand = brand;
+                        let escapedFlavor = flavor;
+                        if (escapedBrand.includes(',') || escapedBrand.includes('"')) {
+                            escapedBrand = '"' + escapedBrand.replace(/"/g, '""') + '"';
+                        }
+                        if (escapedFlavor.includes(',') || escapedFlavor.includes('"')) {
+                            escapedFlavor = '"' + escapedFlavor.replace(/"/g, '""') + '"';
+                        }
+                        csvContent += `${escapedBrand},${escapedFlavor}\n`;
+                        hasData = true;
+                    });
+                }
+            }
+
+            // Fallback example if inventory is empty
+            if (!hasData) {
+                csvContent += "Geek Bar,Miami Mint\nGeek Bar,Watermelon Ice\nFogger,White Gummy\n";
+            }
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'inventory_sample.csv';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('Sample CSV file downloaded!');
+        }
+
+        // --- BACKUP & RESTORE SYSTEM ---
+        function createBackup(description) {
+            const dateStr = new Date().toLocaleString();
+            const backup = {
+                id: 'backup_' + Date.now(),
+                timestamp: dateStr,
+                description: description,
+                data: JSON.parse(JSON.stringify(inventory))
+            };
+            backups.unshift(backup);
+            // Cap at 15 backups to conserve storage space
+            if (backups.length > 15) {
+                backups.pop();
+            }
+            localStorage.setItem('king_tobacco_backups', JSON.stringify(backups));
+            renderBackups();
+        }
+
+        function createBackupManual() {
+            createBackup('Manual user backup');
+            showToast('Manual backup created successfully');
+        }
+
+        function restoreBackup(id) {
+            if (confirm('Restoring this backup will overwrite the current inventory. Are you sure you want to proceed?')) {
+                const target = backups.find(b => b.id === id);
+                if (target) {
+                    // Create an auto safety backup of current state first
+                    createBackup('Auto safety backup before restore');
+                    
+                    inventory = JSON.parse(JSON.stringify(target.data));
+                    saveInventoryToStorage();
+                    renderDashboard();
+                    showToast('Inventory restored successfully!');
+                }
+            }
+        }
+
+        function deleteBackup(id) {
+            if (confirm('Are you sure you want to delete this backup archive?')) {
+                backups = backups.filter(b => b.id !== id);
+                localStorage.setItem('king_tobacco_backups', JSON.stringify(backups));
+                renderBackups();
+                showToast('Backup deleted');
+            }
+        }
+
+        // --- BRAND CRUD ---
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('fileNameLabel').textContent = file.name;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('brandLogoBase64').value = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveBrand(event) {
+            event.preventDefault();
+            const brandId = document.getElementById('editBrandId').value;
+            const brandName = document.getElementById('brandName').value.trim();
+            const brandColor = document.getElementById('brandColor').value;
+            
+            // Check logo prioritization: Base64 upload or link input
+            const base64Logo = document.getElementById('brandLogoBase64').value;
+            const urlLogo = document.getElementById('brandLogoUrl').value.trim();
+            const brandLogo = base64Logo || urlLogo;
+
+            if (!brandName) return;
+
+            if (brandId) {
+                // UPDATE Existing Brand
+                if (brandId !== brandName) {
+                    // If name changed, migrate flavors
+                    inventory[brandName] = {
+                        color: brandColor,
+                        logo: brandLogo,
+                        flavors: inventory[brandId].flavors
+                    };
+                    delete inventory[brandId];
+                } else {
+                    // Update key values
+                    inventory[brandId].color = brandColor;
+                    inventory[brandId].logo = brandLogo;
+                }
+                showToast(`Brand "${brandName}" updated successfully!`);
+            } else {
+                // CREATE New Brand
+                if (inventory[brandName]) {
+                    alert('A brand with this name already exists!');
+                    return;
+                }
+                inventory[brandName] = {
+                    color: brandColor,
+                    logo: brandLogo,
+                    flavors: []
+                };
+                showToast(`Brand "${brandName}" created!`);
+            }
+
+            saveInventoryToStorage();
+            resetBrandForm();
+            renderDashboard();
+        }
+
+        function editBrand(key) {
+            document.getElementById('editBrandId').value = key;
+            document.getElementById('brandName').value = key;
+            document.getElementById('brandColor').value = inventory[key].color;
+            document.getElementById('colorHexText').textContent = inventory[key].color;
+            
+            // Set logo link if it's a URL, or clear file uploads
+            const logo = inventory[key].logo || '';
+            if (logo.startsWith('data:')) {
+                document.getElementById('brandLogoBase64').value = logo;
+                document.getElementById('brandLogoUrl').value = '';
+                document.getElementById('fileNameLabel').textContent = 'Image stored offline';
+            } else {
+                document.getElementById('brandLogoBase64').value = '';
+                document.getElementById('brandLogoUrl').value = logo;
+                document.getElementById('fileNameLabel').textContent = 'Choose Image File...';
+            }
+
+            document.getElementById('brandFormTitle').textContent = 'Edit Brand';
+            document.getElementById('brandSubmitBtn').textContent = 'Save Changes';
+            document.getElementById('cancelEditBtn').style.display = 'inline-flex';
+            
+            // Scroll forms into view
+            document.getElementById('brandForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetBrandForm() {
+            document.getElementById('editBrandId').value = '';
+            document.getElementById('brandName').value = '';
+            document.getElementById('brandColor').value = '#d4af37';
+            document.getElementById('colorHexText').textContent = '#d4af37';
+            document.getElementById('brandLogoUrl').value = '';
+            document.getElementById('brandLogoFile').value = '';
+            document.getElementById('brandLogoBase64').value = '';
+            document.getElementById('fileNameLabel').textContent = 'Choose Image File...';
+
+            document.getElementById('brandFormTitle').textContent = 'Create Brand';
+            document.getElementById('brandSubmitBtn').textContent = 'Save Brand';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+        }
+
+        // Strict Delete Modal Triggers
+        function triggerDeleteBrand(brandKey) {
+            createBackup(`Pre-deletion of Brand "${brandKey}"`);
+            
+            deleteActionType = 'brand';
+            deleteBrandKey = brandKey;
+            deleteTargetName = brandKey;
+
+            document.getElementById('deleteMessage').innerHTML = `Are you sure you want to delete the brand <strong>"${brandKey}"</strong>? This will permanently delete the brand and all of its associated flavors.`;
+            document.getElementById('deleteTargetConfirmName').textContent = deleteTargetName;
+            openDeleteModal();
+        }
+
+        // --- FLAVOR CRUD ---
+        function addFlavorInline(brandKey) {
+            const input = document.getElementById(`newFlavorInline_${brandKey.replace(/\s+/g, '_')}`);
+            const flavorName = input.value.trim();
+            if (!flavorName) return;
+
+            if (inventory[brandKey].flavors.includes(flavorName)) {
+                alert('This flavor already exists for this brand.');
+                return;
+            }
+
+            inventory[brandKey].flavors.push(flavorName);
+            saveInventoryToStorage();
+            input.value = '';
+            renderDashboard();
+            showToast(`Added "${flavorName}"`);
+        }
+
+        function triggerEditFlavor(brandKey, index) {
+            editFlavorBrandKey = brandKey;
+            editFlavorIndex = index;
+            document.getElementById('editFlavorInput').value = inventory[brandKey].flavors[index];
+            document.getElementById('editFlavorModal').classList.add('active');
+            document.getElementById('editFlavorInput').focus();
+        }
+
+        function executeFlavorEdit() {
+            const newName = document.getElementById('editFlavorInput').value.trim();
+            if (!newName) return;
+            
+            inventory[editFlavorBrandKey].flavors[editFlavorIndex] = newName;
+            saveInventoryToStorage();
+            closeEditFlavorModal();
+            renderDashboard();
+            showToast('Flavor updated');
+        }
+
+        function closeEditFlavorModal() {
+            document.getElementById('editFlavorModal').classList.remove('active');
+        }
+
+        function triggerDeleteFlavor(brandKey, index) {
+            const flavorName = inventory[brandKey].flavors[index];
+            createBackup(`Pre-deletion of Flavor "${flavorName}" from "${brandKey}"`);
+
+            deleteActionType = 'flavor';
+            deleteBrandKey = brandKey;
+            deleteFlavorIndex = index;
+            deleteTargetName = flavorName;
+
+            document.getElementById('deleteMessage').innerHTML = `Are you sure you want to delete the flavor <strong>"${flavorName}"</strong> from brand <strong>"${brandKey}"</strong>?`;
+            document.getElementById('deleteTargetConfirmName').textContent = deleteTargetName;
+            openDeleteModal();
+        }
+
+        // --- DELETE CONFIRMATION HANDLERS (STRICT DOUBLE CHECK) ---
+        function openDeleteModal() {
+            document.getElementById('deleteConfirmInput').value = '';
+            document.getElementById('confirmDeleteBtn').disabled = true;
+            document.getElementById('deleteModal').classList.add('active');
+            document.getElementById('deleteConfirmInput').focus();
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('active');
+        }
+
+        function executeDelete() {
+            if (deleteActionType === 'brand') {
+                delete inventory[deleteBrandKey];
+                showToast(`Brand "${deleteBrandKey}" and its flavors deleted`);
+            } else if (deleteActionType === 'flavor') {
+                const flavorName = inventory[deleteBrandKey].flavors[deleteFlavorIndex];
+                inventory[deleteBrandKey].flavors.splice(deleteFlavorIndex, 1);
+                showToast(`Flavor "${flavorName}" deleted`);
+            }
+            saveInventoryToStorage();
+            closeDeleteModal();
+            renderDashboard();
+        }
+
+        function renderBackups() {
+            const container = document.getElementById('backupsList');
+            if (backups.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 12px 0;">No backups created yet.</p>';
+                return;
+            }
+
+            container.innerHTML = backups.map(b => `
+                <div class="backup-item">
+                    <div class="backup-info">
+                        <h4>${b.description}</h4>
+                        <p>${b.timestamp}</p>
+                    </div>
+                    <div style="display: flex; gap: 4px;">
+                        <button onclick="restoreBackup('${b.id}')" class="btn-secondary btn-sm" style="padding: 4px 8px;">Restore</button>
+                        <button onclick="deleteBackup('${b.id}')" class="btn-danger btn-sm" style="padding: 4px 8px;">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- DASHBOARD RENDERING ---
+        function renderDashboard() {
+            const dashboard = document.getElementById('brandsDashboard');
+            const searchQuery = document.getElementById('adminSearchInput').value.toLowerCase();
+            
+            const sortedBrands = Object.keys(inventory).sort();
+            let matchesFound = 0;
+            dashboard.innerHTML = '';
+
+            sortedBrands.forEach(key => {
+                const brand = inventory[key];
+                const brandMatchesSearch = key.toLowerCase().includes(searchQuery);
+                const matchingFlavors = brand.flavors.filter(f => f.toLowerCase().includes(searchQuery));
+                
+                // Show brand if its name matches or if it has matching flavors
+                if (searchQuery && !brandMatchesSearch && matchingFlavors.length === 0) {
+                    return;
+                }
+                
+                matchesFound++;
+                const brandSafeId = key.replace(/\s+/g, '_');
+                
+                // Build logo preview element
+                let logoEl = `<div class="brand-logo-preview placeholder">👑</div>`;
+                if (brand.logo) {
+                    logoEl = `<img src="${brand.logo}" class="brand-logo-preview" alt="${key} Logo">`;
+                }
+
+                // Render brand card
+                const card = document.createElement('div');
+                card.className = 'brand-card';
+                card.style.borderLeft = `5px solid ${brand.color || 'var(--accent-gold)'}`;
+                
+                // Card header
+                let cardHtml = `
+                    <div class="brand-card-header">
+                        <div class="brand-info-wrap">
+                            ${logoEl}
+                            <div class="brand-title-text">
+                                <h3>${key}</h3>
+                                <span style="font-family: monospace; font-size: 0.8rem; color: ${brand.color};">${brand.color || '#d4af37'}</span>
+                            </div>
+                        </div>
+                        <div class="brand-card-actions">
+                            <button onclick="editBrand('${key.replace(/'/g, "\\'")}')" class="btn-secondary btn-sm" style="padding: 6px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                            </button>
+                            <button onclick="triggerDeleteBrand('${key.replace(/'/g, "\\'")}')" class="btn-danger btn-sm" style="padding: 6px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="brand-card-body">
+                        <div class="add-flavor-inline">
+                            <input type="text" id="newFlavorInline_${brandSafeId}" class="input-text" placeholder="Add a new flavor..." onkeydown="if(event.key === 'Enter') addFlavorInline('${key.replace(/'/g, "\\'")}')">
+                            <button onclick="addFlavorInline('${key.replace(/'/g, "\\'")}')" class="btn-gold">Add</button>
+                        </div>
+                        <div class="flavor-list">
+                `;
+
+                // Add flavor tags
+                // If search is active, highlight matched flavors, else show all
+                const listToRender = searchQuery ? brand.flavors : [...brand.flavors].sort((a,b) => a.localeCompare(b));
+
+                if (listToRender.length === 0) {
+                    cardHtml += `<span style="color: var(--text-muted); font-size: 0.9rem;">No flavors added yet.</span>`;
+                } else {
+                    listToRender.forEach(flavor => {
+                        const originalIndex = brand.flavors.indexOf(flavor);
+                        const isMatch = searchQuery && flavor.toLowerCase().includes(searchQuery);
+                        const matchStyle = isMatch ? 'style="border-color: var(--accent-gold); background-color: rgba(212,175,55,0.05);"' : '';
+                        
+                        cardHtml += `
+                            <div class="flavor-badge" ${matchStyle}>
+                                <span class="flavor-badge-text" onclick="triggerEditFlavor('${key.replace(/'/g, "\\'")}', ${originalIndex})">${flavor}</span>
+                                <button class="btn-badge-action" onclick="triggerDeleteFlavor('${key.replace(/'/g, "\\'")}', ${originalIndex})">✕</button>
+                            </div>
+                        `;
+                    });
+                }
+
+                cardHtml += `
+                        </div>
+                    </div>
+                `;
+                card.innerHTML = cardHtml;
+                dashboard.appendChild(card);
+            });
+
+            if (matchesFound === 0) {
+                dashboard.innerHTML = `
+                    <div class="empty-state">
+                        <p>No brands or flavors match your current query.</p>
+                        <p style="font-size: 0.9rem; margin-top: 8px;">Create a brand on the sidebar to get started!</p>
+                    </div>
+                `;
+            }
+        }
+
+        // --- CLIENT.HTML GENERATOR (THE EXPORT SYSTEM) ---
+        const DB_NAME = 'KingTobaccoDB';
+        const STORE_NAME = 'FileHandles';
+        const KEY_NAME = 'clientHtmlHandle';
+
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, 1);
+                request.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains(STORE_NAME)) {
+                        db.createObjectStore(STORE_NAME);
+                    }
+                };
+                request.onsuccess = (e) => resolve(e.target.result);
+                request.onerror = (e) => reject(e.target.error);
+            });
+        }
+
+        async function getSavedHandle() {
+            try {
+                const db = await openDB();
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(STORE_NAME, 'readonly');
+                    const store = tx.objectStore(STORE_NAME);
+                    const request = store.get(KEY_NAME);
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+            } catch (err) {
+                console.error('Failed to get handle from IndexedDB:', err);
+                return null;
+            }
+        }
+
+        async function saveHandle(handle) {
+            try {
+                const db = await openDB();
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(STORE_NAME, 'readwrite');
+                    const store = tx.objectStore(STORE_NAME);
+                    const request = store.put(handle, KEY_NAME);
+                    request.onsuccess = () => resolve();
+                    request.onerror = () => reject(request.error);
+                });
+            } catch (err) {
+                console.error('Failed to save handle to IndexedDB:', err);
+            }
+        }
+
+        async function verifyPermission(fileHandle, readWrite) {
+            const options = {};
+            if (readWrite) {
+                options.mode = 'readwrite';
+            }
+            if ((await fileHandle.queryPermission(options)) === 'granted') {
+                return true;
+            }
+            if ((await fileHandle.requestPermission(options)) === 'granted') {
+                return true;
+            }
+            return false;
+        }
+
+        async function triggerExport() {
+            const clientTemplate = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>King Tobacco - Flavor Menu</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0b0d;
+            --panel-bg: #131317;
+            --card-bg: #1c1c24;
+            --accent-gold: #d4af37;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #2d2d38;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-sans: 'Outfit', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 24px 16px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-header img {
+            max-width: 140px;
+            max-height: 80px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
+        }
+
+        .logo-header h1 {
+            font-family: var(--font-display);
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            letter-spacing: -0.02em;
+            margin-top: 6px;
+        }
+
+        .logo-header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Search & Filter Container */
+        .controls {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 480px) {
+            .controls {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-text, .input-select {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 10px;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .input-text:focus, .input-select:focus {
+            border-color: var(--accent-gold);
+            background-color: var(--card-bg);
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
+        }
+
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .brand-section {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .brand-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            object-fit: contain;
+            background-color: #fff;
+            padding: 2px;
+            border: 1px solid var(--border-color);
+        }
+
+        .brand-title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .flavor-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .flavor-tag {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            transition: all 0.2s;
+        }
+
+        .flavor-tag:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-1px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+            font-size: 0.95rem;
+        }
+
+        /* Footer styling */
+        footer {
+            margin-top: 48px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="logo-header">
+            <!-- Global Shop Logo, or fallback default banner -->
+            <h1>👑 King Tobacco</h1>
+            <p>Flavor Directory & Dynamic Menu</p>
+        </header>
+
+        <!-- Dynamic filters -->
+        <div class="controls">
+            <input type="text" id="searchInput" class="input-text" placeholder="Search flavors (e.g. Mint, Peach)..." onkeyup="filterFlavors()">
+            <select id="brandFilter" class="input-select" onchange="filterFlavors()">
+                <option value="all">All Brands</option>
+            </select>
+        </div>
+
+        <!-- Render list -->
+        <div id="menuContainer" class="menu-container"></div>
+        
+        <footer>
+            &copy; 2026 King Tobacco Menu &bull; Refresh to view updates
+        </footer>
+    </div>
+
+    <script>
+        // Compiled embedded dataset
+        const inventory = \${JSON_DATA};
+
+        // Render functions
+        function renderMenu(data) {
+            const container = document.getElementById('menuContainer');
+            container.innerHTML = '';
+            
+            const sortedBrands = Object.keys(data).sort();
+            let visibleBrandsCount = 0;
+
+            sortedBrands.forEach(brandName => {
+                const brand = data[brandName];
+                if (brand.flavors.length === 0) return;
+
+                visibleBrandsCount++;
+
+                const section = document.createElement('div');
+                section.className = 'brand-section';
+                section.style.borderLeft = \`5px solid \${brand.color || 'var(--accent-gold)'}\`;
+
+                const header = document.createElement('div');
+                header.className = 'brand-header';
+
+                // Logo preview
+                if (brand.logo) {
+                    const logoImg = document.createElement('img');
+                    logoImg.className = 'brand-logo';
+                    logoImg.src = brand.logo;
+                    logoImg.alt = \`\${brandName} Logo\`;
+                    header.appendChild(logoImg);
+                }
+
+                const title = document.createElement('span');
+                title.className = 'brand-title';
+                title.style.color = brand.color || 'var(--accent-gold)';
+                title.textContent = brandName;
+                header.appendChild(title);
+
+                section.appendChild(header);
+
+                const list = document.createElement('div');
+                list.className = 'flavor-list';
+
+                // Sort flavors alphabetically
+                const sortedFlavors = [...brand.flavors].sort((a, b) => a.localeCompare(b));
+                sortedFlavors.forEach(flavor => {
+                    const tag = document.createElement('span');
+                    tag.className = 'flavor-tag';
+                    tag.textContent = flavor;
+                    list.appendChild(tag);
+                });
+
+                section.appendChild(list);
+                container.appendChild(section);
+            });
+
+            if (visibleBrandsCount === 0) {
+                container.innerHTML = \`<div class="empty-state">No matching flavors or brands found.</div>\`;
+            }
+        }
+
+        // Dropdown setup
+        function initDropdown() {
+            const filter = document.getElementById('brandFilter');
+            const sortedBrands = Object.keys(inventory).sort();
+            
+            sortedBrands.forEach(brand => {
+                const opt = document.createElement('option');
+                opt.value = brand;
+                opt.textContent = brand;
+                filter.appendChild(opt);
+            });
+        }
+
+        // Filtering action
+        function filterFlavors() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const selectedBrand = document.getElementById('brandFilter').value;
+            const filtered = {};
+
+            for (let brand in inventory) {
+                if (selectedBrand !== 'all' && brand !== selectedBrand) continue;
+
+                const matching = inventory[brand].flavors.filter(f => 
+                    f.toLowerCase().includes(query)
+                );
+
+                if (matching.length > 0 || (brand.toLowerCase().includes(query) && inventory[brand].flavors.length > 0)) {
+                    filtered[brand] = {
+                        color: inventory[brand].color,
+                        logo: inventory[brand].logo,
+                        flavors: matching.length > 0 ? matching : inventory[brand].flavors
+                    };
+                }
+            }
+            renderMenu(filtered);
+        }
+
+        // Initial setup
+        window.addEventListener('load', () => {
+            initDropdown();
+            renderMenu(inventory);
+        });
+    <\/script>
+</body>
+</html>`;
+
+            // Compile page content
+            const compiledHtml = clientTemplate.replace('${JSON_DATA}', JSON.stringify(inventory));
+
+            // Try to use File System Access API if supported
+            if (window.showSaveFilePicker) {
+                try {
+                    let fileHandle = await getSavedHandle();
+                    let needNewHandle = !fileHandle;
+
+                    if (fileHandle) {
+                        try {
+                            const hasPermission = await verifyPermission(fileHandle, true);
+                            if (!hasPermission) {
+                                needNewHandle = true;
+                            }
+                        } catch (e) {
+                            needNewHandle = true;
+                        }
+                    }
+
+                    if (needNewHandle) {
+                        fileHandle = await window.showSaveFilePicker({
+                            suggestedName: 'client.html',
+                            types: [{
+                                description: 'HTML Files',
+                                accept: { 'text/html': ['.html'] }
+                            }]
+                        });
+                        await saveHandle(fileHandle);
+                    }
+
+                    const writable = await fileHandle.createWritable();
+                    await writable.write(compiledHtml);
+                    await writable.close();
+
+                    showToast('client.html updated successfully in your folder!');
+                    return;
+                } catch (err) {
+                    console.warn('File System Access API failed, falling back to download:', err);
+                    if (err.name === 'AbortError') {
+                        showToast('Export cancelled.');
+                        return;
+                    }
+                }
+            }
+
+            // Fallback for non-supported browsers or file:// protocol
+            const blob = new Blob([compiledHtml], { type: 'text/html' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'client.html';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showToast('client.html file generated and download started!');
+        }
+    </script>
+</body>
+</html>
